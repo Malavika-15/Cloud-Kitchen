@@ -11,7 +11,11 @@ const bcrypt = require('bcryptjs');
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: ['https://your-vercel-domain.vercel.app'],
+  credentials: true
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -98,14 +102,12 @@ app.get('/verify-token', async (req, res) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log("JWT_SECRET on verify:", process.env.JWT_SECRET);
     console.log('Decoded token:', decoded);
-    const user = await User.findById(decoded.id);
-    if (!user) return res.sendStatus(404);
+    const admin = await AdminModel.findById(decoded.id);
+    if (!admin) return res.sendStatus(404);
 
-    // Check if user is admin
-    if (user.role !== 'admin') return res.status(403).json({ message: 'Not authorized' });
-
-    res.json({ success: true, user: { email: user.email, role: user.role } });
+    res.json({ success: true, user: { email: admin.email} });
   } catch (err) {
     console.error(err);
     console.error('Verify token error:', err);
