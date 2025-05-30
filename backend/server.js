@@ -36,7 +36,6 @@ const User = require('./models/User');
 const AdminModel = require('./models/Admin'); // make sure this file exists
 
 // Routes
-app.use('/api/auth', require('./routes/auth'));
 app.use('/api/team', require('./routes/team'));
 app.use('/api/values', require('./routes/values'));
 app.use('/api/contact', require('./routes/contact'));
@@ -88,6 +87,29 @@ app.post('/api/menu/upload', authenticateToken, upload.array('images'), async (r
   } catch (error) {
     console.error('Error uploading menu:', error);
     res.status(400).json({ error: 'Failed to save menu items' });
+  }
+});
+
+router.get('/verify-token', async (req, res) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  console.log('Received token:', token);
+  if (!token) return res.sendStatus(401);
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log('Decoded token:', decoded);
+    const user = await User.findById(decoded.id);
+    if (!user) return res.sendStatus(404);
+
+    // Check if user is admin
+    if (user.role !== 'admin') return res.status(403).json({ message: 'Not authorized' });
+
+    res.json({ success: true, user: { email: user.email, role: user.role } });
+  } catch (err) {
+    console.error(err);
+    console.error('Verify token error:', err);
+    res.status(403).json({ message: 'Invalid token' });
   }
 });
 
