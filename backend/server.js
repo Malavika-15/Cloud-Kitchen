@@ -90,7 +90,7 @@ app.post('/api/menu/upload', authenticateToken, upload.array('images'), async (r
   }
 });
 
-router.get('/verify-token', async (req, res) => {
+app.get('/verify-token', async (req, res) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
   console.log('Received token:', token);
