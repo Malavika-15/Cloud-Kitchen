@@ -32,7 +32,7 @@ const Login = () => {
 
       const token = data.token;
 
-      const verifyResponse = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/verify-token`, {
+      const verifyResponse = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/verify-token`, {
         headers: { Authorization: 'Bearer ' + token }
       });
 
