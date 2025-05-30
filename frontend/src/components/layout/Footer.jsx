@@ -18,7 +18,7 @@ const Footer = () => {
   const handleSubscribe = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('https://cloud-kitchen-backend-uw2s.onrender.com', { email });
+      await axios.post('http://localhost:5000/api/newsletter', { email });
       alert('Subscribed successfully!');
       setEmail('');
     } catch (err) {
