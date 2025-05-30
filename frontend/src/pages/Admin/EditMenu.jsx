@@ -183,14 +183,14 @@ const EditMenu = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
               <Input
-                label="Price ($)"
+                label="Price (Rs.)"
                 name="price"
                 type="number"
                 value={formData.price}
                 onChange={handleInputChange}
-                placeholder="9.99"
+                placeholder="100"
                 min="0"
-                step="0.01"
+                step="0"
                 required
                 disabled={loading}
               />

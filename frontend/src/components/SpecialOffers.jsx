@@ -71,7 +71,7 @@ const SpecialOffers = () => {
                 <h3 className="text-xl font-bold text-amber-300 font-dancing">{item.name}</h3>
                 <p className="text-amber-100/70 text-sm mt-1 mb-3 line-clamp-2">{item.description}</p>
                 <div className="flex justify-between items-center">
-                  <span className="text-xl font-bold text-amber-300">${item.price.toFixed(2)}</span>
+                  <span className="text-xl font-bold text-amber-300">Rs.{item.price.toFixed(2)}</span>
                   <span className="bg-amber-900/50 text-amber-300 text-xs px-2 py-1 rounded">Limited Time</span>
                 </div>
               </div>

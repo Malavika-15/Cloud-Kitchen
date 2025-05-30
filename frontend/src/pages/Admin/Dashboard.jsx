@@ -170,7 +170,7 @@ const Dashboard = () => {
                               <div className="text-sm text-amber-100/70 max-w-xs truncate">{item.description}</div>
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap">
-                              <div className="text-sm text-amber-300">${item.price.toFixed(2)}</div>
+                              <div className="text-sm text-amber-300">Rs.{item.price.toFixed(2)}</div>
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap">
                               <div className="text-sm text-amber-100">{item.quantity}</div>

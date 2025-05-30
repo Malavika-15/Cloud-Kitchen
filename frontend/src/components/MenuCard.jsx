@@ -30,7 +30,7 @@ const MenuCard = ({ item, index }) => {
           <div className="flex items-center space-x-2">
             <div className="bg-amber-100/10 backdrop-blur-sm px-3 py-1 rounded-full">
               <span className="text-lg font-bold text-amber-300 font-dancing">
-                ${item.price.toFixed(2)}
+                Rs.{item.price.toFixed(2)}
               </span>
             </div>
             <span className="text-amber-200 text-sm">

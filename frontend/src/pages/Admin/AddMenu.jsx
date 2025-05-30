@@ -224,13 +224,13 @@ const AddMenu = () => {
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                   <Input
-                    label="Price ($)"
+                    label="Price (Rs.)"
                     type="number"
                     value={item.price}
                     onChange={(e) => handleItemChange(index, 'price', e.target.value)}
-                    placeholder="9.99"
+                    placeholder="100"
                     min="0"
-                    step="0.01"
+                    step="0"
                     required
                     disabled={loading}
                   />
