@@ -31,10 +31,12 @@ router.post('/login', async (req, res) => {
 router.get('/verify-token', async (req, res) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
+  console.log('Received token:', token);
   if (!token) return res.sendStatus(401);
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log('Decoded token:', decoded);
     const user = await User.findById(decoded.id);
     if (!user) return res.sendStatus(404);
 
@@ -44,6 +46,7 @@ router.get('/verify-token', async (req, res) => {
     res.json({ success: true, user: { email: user.email, role: user.role } });
   } catch (err) {
     console.error(err);
+    console.error('Verify token error:', err);
     res.status(403).json({ message: 'Invalid token' });
   }
 });
