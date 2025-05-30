@@ -30,8 +30,11 @@ const Login = () => {
         throw new Error(data.message || 'Login failed');
       }
 
-      // Save JWT token to localStorage
-      localStorage.setItem('token', data.token);
+      // Save JWT token 
+      fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/verify-token`, {
+        headers: { Authorization: 'Bearer ' + token }
+      });
+
       setIsLoading(false);
       navigate('/admin');
     } catch (err) {
