@@ -3,13 +3,12 @@ const mongoose = require('mongoose');
 const TeamMember = require('./models/TeamMember');
 const Value = require('./models/Value');
 
-mongoose.connect('mongodb://localhost:27017/cloudkitchen', {
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-}).then(() => {
-  console.log('MongoDB connected for seeding');
-  seedData();
-}).catch(err => console.error(err));
+})
+.then(() => console.log('MongoDB connected'))
+.catch(err => console.error('MongoDB connection error:', err));
 
 async function seedData() {
   try {

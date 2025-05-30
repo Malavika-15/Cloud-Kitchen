@@ -3,7 +3,12 @@ const mongoose = require('mongoose');
 const User = require('./models/User');
 
 async function createAdmin() {
-  await mongoose.connect('mongodb://localhost:27017/CloudKitchen');
+  await mongoose.connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.error('MongoDB connection error:', err));
 
   const existingAdmin = await User.findOne({ email: 'admin@example.com' });
   if (existingAdmin) {

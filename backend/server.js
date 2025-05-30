@@ -23,9 +23,12 @@ if (!fs.existsSync(uploadsDir)) {
 app.use('/uploads', express.static(uploadsDir));
 
 // MongoDB connection
-mongoose.connect('mongodb://localhost:27017/CloudKitchen')
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.error(err));
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log('MongoDB connected'))
+.catch(err => console.error('MongoDB connection error:', err));
 
 // Models
 const MenuItem = require('./models/MenuItem');
@@ -196,10 +199,19 @@ app.get('/api/user', authenticateToken, async (req, res) => {
 // Admin login
 app.post('/api/login', async (req, res) => {
   try {
+    console.log('Login request received');
+    console.log('Request body:', req.body);
     const { email, password } = req.body;
     const admin = await AdminModel.findOne({ email });
 
-    if (!admin || !(await bcrypt.compare(password, admin.password))) {
+    if (!admin) {
+      console.log('Admin not found for:', email); 
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
+    const isMatch = await bcrypt.compare(password, admin.password);
+    if (!isMatch) {
+      console.log('Incorrect password');
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
@@ -207,6 +219,7 @@ app.post('/api/login', async (req, res) => {
 
     res.json({ email: admin.email, token });
   } catch (error) {
+    console.error('Login error:', error);
     res.status(500).json({ message: 'Login failed' });
   }
 });
