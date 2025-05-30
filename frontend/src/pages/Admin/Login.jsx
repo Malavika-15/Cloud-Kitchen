@@ -30,6 +30,14 @@ const Login = () => {
         throw new Error(data.message || 'Login failed');
       }
 
+      const token = data.token;
+
+      const verifyResponse = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/verify-token`, {
+        headers: { Authorization: 'Bearer ' + token }
+      });
+
+      if (!verifyResponse.ok) throw new Error('Token verification failed');
+
       setIsLoading(false);
       navigate('/admin');
     } catch (err) {
