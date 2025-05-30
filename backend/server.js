@@ -127,7 +127,7 @@ app.post('/api/menu', authenticateToken, async (req, res) => {
 });
 
 // Delete menu item
-app.delete('/:id', authenticateToken, async (req, res) => {
+app.delete('/api/menu/:id', authenticateToken, async (req, res) => {
   try {
     await MenuItem.findByIdAndDelete(req.params.id);
     res.status(204).end();
@@ -137,7 +137,8 @@ app.delete('/:id', authenticateToken, async (req, res) => {
 });
 
 // Update menu item by ID
-app.put('/:id', async (req, res) => { const { id } = req.params;
+
+app.put('/api/menu/:id', async (req, res) => { const { id } = req.params;
   const {
     name,
     description,
@@ -216,6 +217,13 @@ app.post('/api/logout', (req, res) => {
 });
 
 app.get('/', (req, res) => res.send('Cloud Kitchen Backend Running...'));
+
+app.use(express.static(path.join(__dirname, 'dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
