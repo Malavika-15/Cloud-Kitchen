@@ -31,9 +31,19 @@ const Login = () => {
       }
 
       // Save JWT token 
-      fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/verify-token`, {
+      const token = data.token; 
+
+      // Now use token in the verify-token fetch
+      const verifyResponse = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/verify-token`, {
         headers: { Authorization: 'Bearer ' + token }
       });
+
+      if (!verifyResponse.ok) {
+        throw new Error('Token verification failed');
+      }
+
+      // You can also handle the verifyResponse json if needed
+      const verifyData = await verifyResponse.json();
 
       setIsLoading(false);
       navigate('/admin');
