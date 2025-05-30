@@ -27,7 +27,21 @@ app.use(cors({
 }));
 
 // Handle preflight OPTIONS requests
-app.options('*', cors());
+app.options('*', cors({
+  origin: function(origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      return callback(new Error('Not allowed by CORS'), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true,
+}));
+
+app.get('/api/test-cors', (req, res) => {
+  res.json({ message: 'CORS is working!' });
+});
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
