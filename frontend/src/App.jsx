@@ -22,7 +22,7 @@ const ProtectedRoute = ({ children }) => {
       return;
     }
     axios
-      .get('/api/auth/verify-token', { headers: { Authorization: `Bearer ${token}` } })
+      .get('/api/verify-token', { headers: { Authorization: `Bearer ${token}` } })
       .then(() => setIsAuthenticated(true))
       .catch(() => setIsAuthenticated(false));
   }, []);
