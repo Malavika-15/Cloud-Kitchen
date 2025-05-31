@@ -22,7 +22,7 @@ const ProtectedRoute = ({ children }) => {
       return;
     }
     axios
-      .get('/api/verify-token', { headers: { Authorization: `Bearer ${token}` } })
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/verify-token`, { headers: { Authorization: `Bearer ${token}` } })
       .then(() => setIsAuthenticated(true))
       .catch(() => setIsAuthenticated(false));
   }, []);
