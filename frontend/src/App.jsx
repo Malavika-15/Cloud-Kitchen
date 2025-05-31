@@ -15,6 +15,12 @@ const ProtectedRoute = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
 
   useEffect(() => {
+    // Verify token with backend
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setIsAuthenticated(false);
+      return;
+    }
     axios
       .get(`${import.meta.env.VITE_API_BASE_URL}/api/verify-token`, { headers: { Authorization: `Bearer ${token}` } })
       .then(() => setIsAuthenticated(true))
